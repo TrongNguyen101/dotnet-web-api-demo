@@ -44,19 +44,12 @@ namespace DataAccess
         #endregion
         
         #region Save product
-        public static void SaveProduct(ProductDTO productDTO)
+        public static void SaveProduct(Product product)
         {
             try
             {
                 using (var context = new MyDbContext())
                 {
-                    Product product = new Product
-                    {
-                        ProductName = productDTO.ProductName,
-                        CategoryId = productDTO.CategoryId,
-                        UnitsInStock = productDTO.UnitsInStock,
-                        UnitPrice = productDTO.UnitPrice,
-                    };
                     context.Product.Add(product);
                     context.SaveChanges();
                 }

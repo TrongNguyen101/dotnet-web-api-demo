@@ -1,5 +1,4 @@
 using BusinessObject;
-using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Repositories;
 
@@ -10,6 +9,7 @@ namespace ProductManagementAPI
     public class ProductManagementAPI : ControllerBase
     {
         private IProductRepository repository;
+
         public ProductManagementAPI(IProductRepository repository)
         {
             this.repository = repository;
@@ -19,8 +19,15 @@ namespace ProductManagementAPI
         public ActionResult<IList<Product>> GetProducts() => repository.GetProducts();
 
         [HttpPost]
-        public IActionResult PostProduct(ProductDTO product)
+        public IActionResult PostProduct(ProductDTO productDTO)
         {
+            Product product = new Product()
+            {
+                ProductName = productDTO.ProductName,
+                CategoryId = productDTO.CategoryId,
+                UnitsInStock = productDTO.UnitsInStock,
+                UnitPrice = productDTO.UnitPrice,
+            };
             repository.Save(product);
             return NoContent();
         }
@@ -40,16 +47,16 @@ namespace ProductManagementAPI
         [HttpPut("id")]
         public IActionResult PutProduct(int id, ProductDTO productDTO)
         {
-            var p = repository.GetProductById(id);
-            if(p == null)
+            var product = repository.GetProductById(id);
+            if (product == null)
             {
                 return NotFound();
             }
-            p.ProductName = productDTO.ProductName;
-            p.CategoryId = productDTO.CategoryId;
-            p.UnitPrice = productDTO.UnitPrice;
-            p.UnitsInStock = productDTO.UnitsInStock;
-            repository.UpdateProduct(p);
+            product.ProductName = productDTO.ProductName;
+            product.CategoryId = productDTO.CategoryId;
+            product.UnitPrice = productDTO.UnitPrice;
+            product.UnitsInStock = productDTO.UnitsInStock;
+            repository.UpdateProduct(product);
             return NoContent();
         }
     }

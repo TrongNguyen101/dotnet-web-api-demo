@@ -13,7 +13,7 @@ namespace Repositories
 
         public List<Product> GetProducts() => ProductDAO.GetProducts();
 
-        public void Save(ProductDTO product) => ProductDAO.SaveProduct(product);
+        public void Save(Product product) => ProductDAO.SaveProduct(product);
 
         public void UpdateProduct(Product product) => ProductDAO.UpdateProduct(product);
     }
