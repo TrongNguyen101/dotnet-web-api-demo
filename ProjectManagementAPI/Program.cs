@@ -1,5 +1,4 @@
-using BusinessObject;
-using Microsoft.EntityFrameworkCore;
+using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<MyDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("TrongConnection"));
-});
+builder.Services.AddSingleton(typeof(IProductRepository), typeof(ProductRepository));
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

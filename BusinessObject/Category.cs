@@ -6,10 +6,10 @@ namespace BusinessObject
     public class Category 
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int  CategoryId { set; get; }
+        public int  CategoryId { get; set; }
         [Required]
         [StringLength(40)]
-        public string CategoryName { set; get; }
-        public virtual ICollection<Product> Product { set; get; }
+        public required string CategoryName { get; set; }
+        public required ICollection<Product> Products { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using BusinessObject;
+using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Repositories;
 
@@ -8,13 +9,17 @@ namespace ProductManagementAPI
     [ApiController]
     public class ProductManagementAPI : ControllerBase
     {
-        private IProductRepository repository = new ProductRepository();
+        private IProductRepository repository;
+        public ProductManagementAPI(IProductRepository repository)
+        {
+            this.repository = repository;
+        }
 
         [HttpGet]
-        public ActionResult<IList<Category>> GetProducts() => repository.GetProducts();
+        public ActionResult<IList<Product>> GetProducts() => repository.GetProducts();
 
         [HttpPost]
-        public IActionResult PostProduct(Product product)
+        public IActionResult PostProduct(ProductDTO product)
         {
             repository.Save(product);
             return NoContent();
@@ -33,13 +38,17 @@ namespace ProductManagementAPI
         }
 
         [HttpPut("id")]
-        public IActionResult PutProduct(int id, Product product)
+        public IActionResult PutProduct(int id, ProductDTO productDTO)
         {
             var p = repository.GetProductById(id);
             if(p == null)
             {
                 return NotFound();
             }
+            p.ProductName = productDTO.ProductName;
+            p.CategoryId = productDTO.CategoryId;
+            p.UnitPrice = productDTO.UnitPrice;
+            p.UnitsInStock = productDTO.UnitsInStock;
             repository.UpdateProduct(p);
             return NoContent();
         }

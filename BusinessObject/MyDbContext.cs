@@ -9,8 +9,8 @@ namespace BusinessObject
         public MyDbContext(){ }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
-        public virtual DbSet<Category> Category { set; get; }
-        public virtual DbSet<Product> Products { set; get; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Product> Product { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,9 +27,7 @@ namespace BusinessObject
 
         protected override void OnModelCreating(ModelBuilder optionsBuilder)
         {
-            optionsBuilder.Entity<Category>().HasData(
-                new Category { CategoryId = 1, CategoryName = "test"}
-            );
+
         }
     }
 }

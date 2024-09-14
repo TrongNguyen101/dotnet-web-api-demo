@@ -6,13 +6,13 @@ namespace DataAccess
     public class ProductDAO
     {
         #region Get Products
-        public static List<Category> GetProducts()
+        public static List<Product> GetProducts()
         {
-            var listProducts = new List<Category>();
+            var listProducts = new List<Product>();
             try
             {
                 using var context = new MyDbContext();
-                listProducts = context.Category.ToList();
+                listProducts = context.Product.ToList();
             }
             catch (Exception ex)
             {
@@ -26,12 +26,12 @@ namespace DataAccess
         #region Find Product By Id
         public static Product FindProductById(int id)
         {
-            Product product= new Product();
+            Product product;
             try
             {
                 using(var context = new MyDbContext())
                 {
-                    product = context.Products.FirstOrDefault(p => p.ProductId == id);
+                    product = context.Product.FirstOrDefault(p => p.ProductId == id);
                 }
             }
             catch (Exception ex)
@@ -44,13 +44,20 @@ namespace DataAccess
         #endregion
         
         #region Save product
-        public static void SaveProduct(Product product)
+        public static void SaveProduct(ProductDTO productDTO)
         {
             try
             {
                 using (var context = new MyDbContext())
                 {
-                    context.Products.Add(product);
+                    Product product = new Product
+                    {
+                        ProductName = productDTO.ProductName,
+                        CategoryId = productDTO.CategoryId,
+                        UnitsInStock = productDTO.UnitsInStock,
+                        UnitPrice = productDTO.UnitPrice,
+                    };
+                    context.Product.Add(product);
                     context.SaveChanges();
                 }
             }
@@ -88,8 +95,8 @@ namespace DataAccess
             {
                 using (var context = new MyDbContext())
                 {
-                    var p = context.Products.FirstOrDefault(x => x.ProductId == product.ProductId);
-                    context.Products.Remove(p);
+                    var p = context.Product.FirstOrDefault(x => x.ProductId == product.ProductId);
+                    context.Product.Remove(p);
                     context.SaveChanges();
                 }
             }

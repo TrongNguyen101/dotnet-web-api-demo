@@ -6,17 +6,15 @@ namespace BusinessObject
     public class Product
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProductId { set; get; }
+        public int ProductId { get; set; }
         [Required]
-        [StringLength(40)]
-        public string ProductName { set; get; }
+        public string ProductName {get; set;}
         [Required]
-        public int CategoryId { set; get; }
+        public int CategoryId { get; set; }
         [Required]
-        public int UnitsInStock { set; get; }
+        public int UnitsInStock { get; set; }
         [Required]
-        public decimal UnitPrice { set; get; }
-        [Required]
-        public virtual Category Category { set; get; }
+        public decimal UnitPrice { get; set; }
+        public Category Categories { get; set; }
     }
 }
