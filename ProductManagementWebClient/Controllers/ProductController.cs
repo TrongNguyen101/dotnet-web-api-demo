@@ -18,5 +18,16 @@ namespace ProductManagementWebClient
             client.DefaultRequestHeaders.Accept.Add(contentType);
             this.productApiUrl = "http://localhost:5143/api/ProductManagementAPI";
         }
+        public async Task<IActionResult> Index()
+        {
+            HttpResponseMessage respone = await client.GetAsync(productApiUrl);
+            string strData = await respone.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive= true
+            };
+            List<Product> listProducts = JsonSerializer.Deserialize<List<Product>>(strData, options);
+            return View(listProducts);
+        }
     }
 }

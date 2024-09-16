@@ -32,7 +32,7 @@ namespace ProductManagementAPI
             return NoContent();
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
             var p = repository.GetProductById(id);
@@ -44,7 +44,7 @@ namespace ProductManagementAPI
             return NoContent();
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public IActionResult PutProduct(int id, ProductDTO productDTO)
         {
             var product = repository.GetProductById(id);
